@@ -229,6 +229,7 @@ print("ur " + str(ur) + ", or " + get_printable_percentage(ur) + "%");
 print("bw " + str(bw) + ", or " + get_printable_percentage(bw) + "%");
 print("br " + str(br) + ", or " + get_printable_percentage(br) + "%");
 print("gw " + str(gw) + ", or " + get_printable_percentage(gw) + "%");
+print("ug " + str(ug) + ", or " + get_printable_percentage(ug) + "%");
 
 print("\n");
 print("----------------------------------------------------");
