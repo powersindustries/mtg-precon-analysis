@@ -4,8 +4,8 @@ import re;
 
 commander_count = 52;
 
-color_idenity_map = {};
-color_idenity_count_map = {};
+color_identity_map = {};
+color_identity_array = [0] * 10;
 mana_cost_array = [0] * 10;
 
 
@@ -31,10 +31,10 @@ with open('data/cardDatabase.csv', mode='r') as file:
                 if color_identity == "" :
                     color_identity = "C";
 
-                if color_identity in color_idenity_map :
-                    color_idenity_map[color_identity] += 1;
+                if color_identity in color_identity_map :
+                    color_identity_map[color_identity] += 1;
                 else :
-                    color_idenity_map[color_identity] = 1;
+                    color_identity_map[color_identity] = 1;
 
                 # Mana cost data.
                 mana_cost = row_array[1];
@@ -50,14 +50,12 @@ with open('data/cardDatabase.csv', mode='r') as file:
                 mana_cost_array[cost] += 1;
 
 
-
 # Color count calculation.
-for key in color_idenity_map:
+for key in color_identity_map:
     color_count = len(key);
-    if color_count in color_idenity_count_map :
-        color_idenity_count_map[color_count] += 1;
-    else :
-        color_idenity_count_map[color_count] = 1;
+    color_identity_array[color_count] += color_identity_map[key]; 
+
+
 
 
 # Print findings.
@@ -68,15 +66,17 @@ for cost in mana_cost_array:
     index += 1;
 print("\n");
 
+
 print("Commander color count analytics (How many different colors you need to cast the commander).");
-sorted_count_output = {key: color_idenity_count_map[key] for key in sorted(color_idenity_count_map.keys())}
-for key in sorted_count_output:
-    value = sorted_count_output[key];
-    print(str(key) + " color : " + str(value) + ", " + str(value / commander_count * 100) + "%");
+index = 0;
+for value in color_identity_array:
+    if value > 0:
+        print(str(index) + " color : " + str(value) + ", " + str(value / commander_count * 100) + "%");
+    index += 1;
 print("\n");
 
 print("Commander color pairing analytics (What colors do you need to cast the commander).");
-sorted_output = dict(sorted(color_idenity_map.items(), key=lambda item: (len(item[0]), item[0])))
+sorted_output = dict(sorted(color_identity_map.items(), key=lambda item: (len(item[0]), item[0])))
 for key in sorted_output:
     value = sorted_output[key];
     print(key + ": " + str(value) + ", " + str(value / commander_count * 100) + "%");
